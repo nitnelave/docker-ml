@@ -1,4 +1,4 @@
-FROM nvidia/cuda:7.5-cudnn4-devel
+FROM nvidia/cuda:7.5-cudnn4-devel-centos7
 MAINTAINER Valentin Tolmer "valentin.tolmer@gmail.com"
 
 # Repository for recent packages
