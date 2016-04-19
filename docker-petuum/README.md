@@ -29,10 +29,10 @@ set. Make sure the permissions are 700.
 
 Example docker command:
 
-`docker run -itd -v /path/to/your/ssh/folder:/root/.ssh $(for device in $(ls /dev/nvidia*); do echo -n "--device $device "; done) --name petuum0 nitnelave/petuum`
+`docker run -itd -v /path/to/your/ssh/folder:/root/.ssh $(for device in $(ls /dev/nvidia*); do echo -n "--device $device "; done) --name poseidon0 nitnelave/poseidon`
 
 ## Host file
 
 If you want to run with more than one docker locally to run some tests, you can
-start several instances of the docker. If they are named `petuum0`, `petuum1`,
-etc, you can use the `generate_hostfile.sh` script provided.
+start several instances of the docker. If they are named `poseidon0`,
+`poseidon1`, etc, you can use the `generate_hostfile.sh` script provided.
