@@ -60,4 +60,4 @@ ENV CUDA_TOOLKIT_PATH=/usr/local/cuda \
 RUN git clone --recursive https://github.com/tensorflow/tensorflow.git && \
     cd tensorflow && \
     git checkout r0.8 && \
-    ./configure && \
+    ./configure
