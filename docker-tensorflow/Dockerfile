@@ -1,12 +1,11 @@
 FROM nitnelave/tensorflow-dependencies
 MAINTAINER Valentin Tolmer "valentin.tolmer@gmail.com"
 
-# Download and build TensorFlow.
-RUN cd tensorflow && \
-    bazel build -c opt --config=cuda tensorflow/tools/pip_package:build_pip_package && \
+# Build TensorFlow.
+RUN cd tensorflow  && \
+    bazel build -c opt --local_resources 2048,1.0,1.0 --config=cuda tensorflow/tools/pip_package:build_pip_package && \
     bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
-    pip install --upgrade /tmp/pip/tensorflow-*.whl
-
+    pip install --no-cache-dir --upgrade /tmp/pip/tensorflow-*.whl
 
 
 # Set up our notebook config.

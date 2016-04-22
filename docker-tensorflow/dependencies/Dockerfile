@@ -6,58 +6,47 @@ RUN yum -y install \
         bc \
         curl \
         freetype-devel \
+        gcc-gfortran \
         java-1.8.0-openjdk-devel \
         libpng12-devel \
         python-devel \
+        python-pip \
         swig \
         vim \
         unzip \
+        zip \
         && \
     yum clean all && \
     rm -rf /var/lib/apt/lists/*
 
 # Install pip and some TF dependencies
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py && \
-    pip --no-cache-dir install \
+RUN pip --no-cache-dir install \
         ipykernel \
         jupyter \
         matplotlib \
         numpy \
         scipy \
+        wheel \
         zmq \
         && \
     python -m ipykernel.kernelspec
 
 
-# Install the most recent bazel release.
-ENV BAZELRC=/root/.bazelrc BAZEL_VERSION=0.2.1
-
-RUN mkdir /bazel && \
-    cd /bazel && \
-    # Running bazel inside a `docker build` command causes trouble, cf:
-    #   https://github.com/bazelbuild/bazel/issues/134
-    # The easiest solution is to set up a bazelrc file forcing --batch.
-    echo "startup --batch" >>/root/.bazelrc && \
-    # Similarly, we need to workaround sandboxing issues:
-    #   https://github.com/bazelbuild/bazel/issues/418
-    echo "build --spawn_strategy=standalone --genrule_strategy=standalone" >>/root/.bazelrc && \
-    curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
-    curl -fSsL -o /bazel/LICENSE.txt https://raw.githubusercontent.com/bazelbuild/bazel/master/LICENSE.txt && \
-    chmod +x bazel-*.sh && \
-    ./bazel-$BAZEL_VERSION-installer-linux-x86_64.sh && \
-    cd / && \
-    rm -f /bazel/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
-
+# Download and build Bazel
+RUN git clone https://github.com/bazelbuild/bazel && \
+    cd bazel && \
+    git checkout 0.2.0 && \
+    ./compile.sh && \
+    ln -s /bazel/output/bazel /bin/bazel
 
 # Configure the build for our CUDA configuration.
 ENV CUDA_TOOLKIT_PATH=/usr/local/cuda \
     CUDNN_INSTALL_PATH=/usr/local/cuda \
     TF_NEED_CUDA=1
 
-# Download and build TensorFlow.
+# Download TensorFlow and third-party libraries
 RUN git clone --recursive https://github.com/tensorflow/tensorflow.git && \
     cd tensorflow && \
     git checkout r0.8 && \
-    ./configure
+    ./configure && \
+    bazel fetch //...
