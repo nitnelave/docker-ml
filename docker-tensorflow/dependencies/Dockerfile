@@ -35,7 +35,7 @@ RUN pip --no-cache-dir install \
 # Download and build Bazel
 RUN git clone https://github.com/bazelbuild/bazel && \
     cd bazel && \
-    git checkout 0.2.0 && \
+    git checkout 0.2.2 && \
     ./compile.sh && \
     ln -s /bazel/output/bazel /bin/bazel
 
