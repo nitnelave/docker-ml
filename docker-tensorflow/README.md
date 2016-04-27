@@ -14,6 +14,13 @@ repository.
 
 TensorBoard is running on port 6006.
 
+## Building the image
+
+The image cannot be built on DockerHub, so you are encouraged to build it
+yourself:
+
+`docker build -t nitnelave/tensorflow .`
+
 ## Example docker run command
 
 
