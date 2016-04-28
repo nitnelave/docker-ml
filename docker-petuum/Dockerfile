@@ -1,7 +1,10 @@
-FROM nitnelave/nvidia
+FROM nitnelave/nvidia-cudnn3
 
 RUN yum -y install \
+    libstdc++-static \
     openssh-server \
+    python-devel \
+    && yum remove -y gflags-devel \
     && yum clean all
 
 RUN mkdir /var/run/sshd
@@ -13,6 +16,20 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 
 
 RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh && rm -rf /root/.ssh/*
+
+RUN git clone https://github.com/petuum/poseidon.git && \
+    cd poseidon && \
+    git clone https://github.com/nitnelave/third_party.git && \
+    make -C third_party -j$(nproc) || make -C third_party && \
+    make -j$(nproc) -C ps && \
+    cp Makefile.config.example Makefile.config && \
+    echo "USE_CUDNN := 1" >> Makefile.config && \
+    sed -i 's/BLAS := atlas/BLAS := open/g' Makefile.config && \
+    echo 'BLAS_INCLUDE := /usr/include/openblas' >> Makefile.config && \
+    echo 'BLAS_LIB := /usr/lib64' >> Makefile.config
+
+RUN cd poseidon && \
+    make all -j$(nproc)
 
 EXPOSE 22
 
