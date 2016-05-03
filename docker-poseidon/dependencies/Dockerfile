@@ -25,6 +25,6 @@ RUN git clone --recursive https://github.com/nitnelave/poseidon.git && \
     echo "USE_CUDNN := 1" >> Makefile.config && \
     sed -i 's/BLAS := atlas/BLAS := open/g' Makefile.config && \
     echo 'BLAS_INCLUDE := /usr/include/openblas' >> Makefile.config && \
-    echo 'BLAS_LIB := /usr/lib64' >> Makefile.config && \
+    echo 'BLAS_LIB := /usr/lib64' >> Makefile.config
 
 RUN cd /poseidon && make -j$(nproc) -C third_party
