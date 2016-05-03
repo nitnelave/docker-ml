@@ -1,11 +1,5 @@
-FROM nitnelave/scikit
+FROM nitnelave/caffe
 MAINTAINER Valentin Tolmer "valentin.tolmer@gmail.com"
-
-#RUN update-alternatives  --set libblas.so.3 \
-#        /usr/lib64/libopenblas.so.3 && \
-#    update-alternatives --set liblapack.so.3 \
-#        /usr/lib64/liblapack.so.3
-
 
 RUN cd /caffe && \
     git remote add yosinski https://github.com/yosinski/caffe.git && \

@@ -1,5 +1,5 @@
 TARGET=nitnelave/deepvis
 TARGET_FOLDER=docker-deepvis
-DEPENDENCY=docker-scikit
+DEPENDENCY=docker-caffe
 
 include ../derived.mk

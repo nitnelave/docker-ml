@@ -1,4 +1,4 @@
-FROM nitnelave/scikit
+FROM nitnelave/caffe
 MAINTAINER Valentin Tolmer "valentin.tolmer@gmail.com"
 
 RUN pip install --no-cache-dir progressbar
