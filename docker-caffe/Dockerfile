@@ -7,7 +7,8 @@ RUN cd / && git clone https://github.com/BVLC/caffe.git && cd caffe && \
     sed -i 's/:= atlas/:= open/' Makefile.config && \
     echo "BLAS_INCLUDE := /usr/include/openblas/" >> Makefile.config && \
     echo "BLAS_LIB := /usr/lib64" >> Makefile.config && \
-    make -j8 && \
+    make -j$(nproc) && \
+    make -j$(nproc) pycaffe && \
     ln -s  /caffe/.build_release/tools/caffe /usr/bin/caffe
 
-
+ENV PYTHONPATH=$PYTHONPATH:/caffe/python
