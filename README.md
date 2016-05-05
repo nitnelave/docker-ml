@@ -13,3 +13,11 @@ You can build the images with the Makefiles provided:
     `make caffe`
   - from the projects' directory:
     `cd docker-caffe; make`
+
+If you have trouble accessing the GPUs from inside the Docker containers, make
+sure you have matching versions of the CUDA drivers.
+
+Your own version (as provided by `yum info cuda-drivers`) should match the
+number in
+[docker-nvidia/Dockerfile](https://github.com/nitnelave/docker-ml/blob/master/docker-nvidia/Dockerfile). 
+If necessary, change the version in the Dockerfile and rebuild the images.
