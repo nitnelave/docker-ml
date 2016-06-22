@@ -1,5 +1,5 @@
 TARGET=nitnelave/tensorflow-dependencies
 TARGET_FOLDER=docker-tensorflow/dependencies
-DEPENDENCY=docker-nvidia
+DEPENDENCY=docker-jupyter
 
 include ../derived.mk

@@ -1,4 +1,4 @@
-FROM nitnelave/nvidia
+FROM nitnelave/caffe-jupyter
 MAINTAINER Valentin Tolmer "valentin.tolmer@gmail.com"
 
 # Pick up some TF dependencies
@@ -8,29 +8,10 @@ RUN yum -y install \
         freetype-devel \
         gcc-gfortran \
         java-1.8.0-openjdk-devel \
-        libpng12-devel \
-        python-devel \
-        python-pip \
         swig \
-        vim \
-        unzip \
-        zip \
         && \
     yum clean all && \
     rm -rf /var/lib/apt/lists/*
-
-# Install pip and some TF dependencies
-RUN pip --no-cache-dir install \
-        ipykernel \
-        jupyter \
-        matplotlib \
-        numpy \
-        scipy \
-        wheel \
-        zmq \
-        && \
-    python -m ipykernel.kernelspec
-
 
 # Download and build Bazel
 RUN git clone https://github.com/bazelbuild/bazel && \
